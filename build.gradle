@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'signing'
+    id "com.google.cloud.artifactregistry.gradle-plugin" version "2.1.5"
 }
 
 group 'com.testvagrant.ekam.commons'
@@ -59,7 +60,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             customizePom(pom)
-            groupId 'com.testvagrant.ekam'
+            groupId 'dunzoit'
             artifactId 'ekam-commons'
             version '1.0.2'
 
@@ -77,13 +78,13 @@ publishing {
 
     repositories {
         maven {
-            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            credentials {
-                username System.getenv("sonatypeUsername")
-                password System.getenv("sonatypePassword")
+            url "artifactregistry://asia-south1-maven.pkg.dev/dev-application-294611/maven-qe"
+//            credentials {
+//                username System.getenv("sonatypeUsername")
+//                password System.getenv("sonatypePassword")
 //                username sonatypeUsername
 //                password sonatypePassword
-            }
+//            }
         }
     }
 }
@@ -103,33 +104,22 @@ def customizePom(pom) {
 
             description 'Ekam commons for data, file, i8 and cache management'
             name 'Ekam Common'
-            url 'https://github.com/testvagrant/ekam-commons'
-            organization {
-                name 'com.testvagrant.ekam'
-                url 'https://github.com/testvagrant'
-            }
-            issueManagement {
-                system 'GitHub'
-                url 'https://github.com/testvagrant/ekam-commons/issues'
-            }
+            url 'https://github.com/dunzoit/ekam-commons'
             licenses {
                 license {
                     name 'MIT License'
-                    url 'https://github.com/testvagrant/ekam-commons/-/blob/master/LICENSE'
+                    url 'https://github.com/dunzoit/ekam-commons/-/blob/master/LICENSE'
                     distribution 'repo'
                 }
             }
             scm {
-                url 'https://github.com/testvagrant/ekam-commons'
-                connection 'https://github.com/testvagrant/ekam-commons.git'
-                developerConnection 'git@github.com:testvagrant/ekam-commons.git'
+                url 'https://github.com/dunzoit/ekam-commons'
+                connection 'https://github.com/dunzoit/ekam-commons.git'
+                developerConnection 'git@github.com:dunzoit/ekam-commons.git'
             }
             developers {
                 developer {
-                    name 'Sudarshan GS'
-                }
-                developer {
-                    name 'Krishnanand B'
+                    name 'Central QA'
                 }
             }
         }
@@ -140,8 +130,4 @@ model {
     tasks.generatePomFileForMavenJavaPublication {
         destination = file("$buildDir/generated-pom.xml")
     }
-}
-
-signing {
-    sign publishing.publications
 }
